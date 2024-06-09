@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROYECTO</title>
+
+<script>
+    //AUTOR:MARIA KENIA MEJIA HERNANDEZ Y KEYLLI JULIET GARCIA MOTA
+
+    var valores = [];
+
+    function MeMoMe(valores) {
+        if (valores.length === 0) {
+            alert("No se ingresaron valores.");
+            return;
+        }
+
+        var suma = 0;
+        for (var i = 0; i < valores.length; i++) {
+            suma += valores[i];
+        }
+        var media = suma / valores.length;
+
+        var frecuencia = {};
+        for (var i = 0; i < valores.length; i++) {
+            var valor = valores[i];
+            frecuencia[valor] = (frecuencia[valor] || 0) + 1;
+        }
+
+        var moda = [];
+        var maxFrecuencia = 0;
+        for (var num in frecuencia) {
+            if (frecuencia[num] > maxFrecuencia) {
+                moda = [num];
+                maxFrecuencia = frecuencia[num];
+            } else if (frecuencia[num] === maxFrecuencia) {
+                moda.push(num);
+            }
+        }
+
+        valores.sort(function(a, b) { return a - b; }); 
+        var mediana;
+        if (valores.length % 2 === 0) {
+            var med1 = valores[valores.length / 2 - 1];
+       
+            var med2 = valores[valores.length / 2];
+            mediana = (med1 + med2) / 2;
+        } else {
+            mediana = valores[Math.floor(valores.length / 2)];
+        }
+
+        function cambiar(numero, decimales) {
+            var factor = Math.pow(10, decimales);
+            var numeroTruncado = parseInt(numero * factor) / factor;
+            return parseFloat(numeroTruncado.toFixed(decimales));
+        }
+
+        alert("Media: " + cambiar(media, 2) + "\nModa: " + moda.join(" , ") + "\nMediana: " + cambiar(mediana, 2));
+    }
+
+    Array.prototype.calcular = function() {
+        MeMoMe(this);
+    };
+
+    do {
+        var input = prompt("Ingrese un numero");
+        if (input === null) {
+            if (valores.length > 0) {
+                valores.calcular();
+            } else {
+                alert("No se ingresaron valores.");
+            }
+            break;
+        }
+        var numero = parseFloat(input);
+        if (!isNaN(numero)) {
+            valores.push(numero);
+            var continuar = confirm("¿Desea agregar otro numero?");
+            if (!continuar) {
+                valores.calcular();
+                break;
+            }
+        } else {
+            alert("Por favor, ingrese un numero valido.");
+        }
+    } while (true);
+</script>
+</head>
+<body>
+</body>
+</html>
